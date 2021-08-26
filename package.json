@@ -47,11 +47,15 @@
     "@types/react-router-dom": "^5.1.7",
     "@types/styled-components": "^5.1.7",
     "axios-mock-adapter": "^1.19.0",
-    "json-server": "^0.16.3"
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.1",
+    "json-server": "^0.16.3",
+    "prettier": "^2.3.2"
   },
   "eslintConfig": {
     "extends": [
-      "react-app"
+      "react-app",
+      "plugin:prettier/recommended"
     ]
   }
 }
