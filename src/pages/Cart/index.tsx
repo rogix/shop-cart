@@ -1,20 +1,16 @@
-import React from 'react';
-import {
-  MdDelete,
-  MdAddCircleOutline,
-  MdRemoveCircleOutline,
-} from 'react-icons/md';
+import React from 'react'
+import { MdDelete, MdAddCircleOutline, MdRemoveCircleOutline } from 'react-icons/md'
 
 // import { useCart } from '../../hooks/useCart';
 // import { formatPrice } from '../../util/format';
-import { Container, ProductTable, Total } from './styles';
+import { Container, ProductTable, Total } from './styles'
 
 interface Product {
-  id: number;
-  title: string;
-  price: number;
-  image: string;
-  amount: number;
+  id: number
+  title: string
+  price: number
+  image: string
+  amount: number
 }
 
 const Cart = (): JSX.Element => {
@@ -57,7 +53,10 @@ const Cart = (): JSX.Element => {
         <tbody>
           <tr data-testid="product">
             <td>
-              <img src="https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis1.jpg" alt="Tênis de Caminhada Leve Confortável" />
+              <img
+                src="https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis1.jpg"
+                alt="Tênis de Caminhada Leve Confortável"
+              />
             </td>
             <td>
               <strong>Tênis de Caminhada Leve Confortável</strong>
@@ -73,12 +72,7 @@ const Cart = (): JSX.Element => {
                 >
                   <MdRemoveCircleOutline size={20} />
                 </button>
-                <input
-                  type="text"
-                  data-testid="product-amount"
-                  readOnly
-                  value={2}
-                />
+                <input type="text" data-testid="product-amount" readOnly value={2} />
                 <button
                   type="button"
                   data-testid="increment-product"
@@ -113,7 +107,7 @@ const Cart = (): JSX.Element => {
         </Total>
       </footer>
     </Container>
-  );
-};
+  )
+}
 
-export default Cart;
+export default Cart

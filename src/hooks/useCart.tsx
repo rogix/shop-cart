@@ -35,7 +35,7 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
 
   useEffect(() => {
     localStorage.setItem('@RocketShoes:cart', JSON.stringify(cart))
-  })
+  }, [cart])
 
   const addProduct = async (productId: number) => {
     try {
@@ -76,9 +76,17 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
 
   const removeProduct = (productId: number) => {
     try {
-      // TODO
+      const isPoductOnCart = cart.some(product => product.id === productId)
+
+      if (!isPoductOnCart) {
+        toast.error('Erro ao tentar remover produto')
+      }
+
+      const cartWithoutRemovedProduct = cart.filter(product => product.id !== productId)
+
+      setCart(cartWithoutRemovedProduct)
     } catch {
-      // TODO
+      toast.error('Erro ao tentar remover produto')
     }
   }
 
