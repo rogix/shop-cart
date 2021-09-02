@@ -92,9 +92,17 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
 
   const updateProductAmount = async ({ productId, amount }: UpdateProductAmount) => {
     try {
-      // TODO
+      const productIndex = cart.findIndex(product => product.id === productId)
+
+      if (productIndex < 0) {
+        toast.error('Erro ao tentar atualizar o produto')
+      }
+
+      if (amount < 0) {
+        toast.error('Erro ao tentar atualizar o produto')
+      }
     } catch {
-      // TODO
+      toast.error('Erro ao tentar atualizar o produto')
     }
   }
 
