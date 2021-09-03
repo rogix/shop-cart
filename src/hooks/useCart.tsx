@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { createContext, ReactNode, useContext, useState } from 'react'
 import { toast } from 'react-toastify'
 import { api } from '../services/api'
@@ -32,10 +31,6 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
 
     return []
   })
-
-  // useEffect(() => {
-  //   localStorage.setItem('@RocketShoes:cart', JSON.stringify(cart))
-  // }, [cart])
 
   const addProduct = async (productId: number) => {
     try {
@@ -76,33 +71,53 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
 
   const removeProduct = (productId: number) => {
     try {
-      const isPoductOnCart = cart.some(product => product.id === productId)
+      const updatedCart = [...cart]
 
-      if (!isPoductOnCart) {
-        toast.error('Erro ao tentar remover produto')
+      const isPoductOnCart = updatedCart.some(product => product.id === productId)
+
+      if (isPoductOnCart) {
+        updatedCart.filter(product => product.id !== productId)
+
+        setCart(updatedCart)
+
+        localStorage.setItem('@RocketShoes:cart', JSON.stringify(updatedCart))
+      } else {
+        throw Error()
       }
-
-      const cartWithoutRemovedProduct = cart.filter(product => product.id !== productId)
-
-      setCart(cartWithoutRemovedProduct)
     } catch {
-      toast.error('Erro ao tentar remover produto')
+      toast.error('Erro na remoção do produto')
     }
   }
 
   const updateProductAmount = async ({ productId, amount }: UpdateProductAmount) => {
     try {
-      const productIndex = cart.findIndex(product => product.id === productId)
-
-      if (productIndex < 0) {
-        toast.error('Erro ao tentar atualizar o produto')
+      if (amount <= 0) {
+        return
       }
 
-      if (amount < 0) {
-        toast.error('Erro ao tentar atualizar o produto')
+      const { data: stock } = await api.get<Stock>(`/stock/${productId}`)
+
+      const stockAmount = stock.amount
+
+      if (amount > stockAmount) {
+        toast.error('Quantidade solicitada fora de estoque')
+
+        return
+      }
+
+      const updatedCart = [...cart]
+      const productExists = updatedCart.find(product => product.id === productId)
+
+      if (productExists) {
+        productExists.amount = amount
+        setCart(updatedCart)
+
+        localStorage.setItem('@RocketShoes:cart', JSON.stringify(updatedCart))
+      } else {
+        throw Error()
       }
     } catch {
-      toast.error('Erro ao tentar atualizar o produto')
+      toast.error('Erro na alteração de quantidade do produto')
     }
   }
 
